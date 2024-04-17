@@ -29,3 +29,20 @@ There are a number of borrowers entered with their ID number, first and last nam
 
 There are multiple copies of the same books so the book copies table is used to keep track of copy ID's for each book ID.
 
+FILES:
+
+library_database_visuals.pdf for viewing of visuals created within Power BI (without access to Power BI)
+
+library_database_visuals.pbix for viewing of visuals created within Power BI (with access to Power BI)
+
+LIBRARY DATABASE MODEL PNG file for a Screenshot of my database model
+
+DATABASE CREATION text document for the initial creation of the database
+
+DATA RETRIEVAL PROCESS text document for the SQL queries I used to retrieve data from the database
+
+DATA INSERTION text document for the SQL queries I used to insert data into the database
+
+DATA RETRIEVED file folder contains the .xls files that I exported once I retrieved the data (each table was exported individually and each 'DR NUM 1' and further file corresponds with the number for each retrieval I outlined in the DATA RETRIEVAL PROCESS text document
+
+
