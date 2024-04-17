@@ -43,6 +43,6 @@ DATA RETRIEVAL PROCESS text document for the SQL queries I used to retrieve data
 
 DATA INSERTION text document for the SQL queries I used to insert data into the database
 
-DATA RETRIEVED file folder contains the .xls files that I exported once I retrieved the data (each table was exported individually and each 'DR NUM 1' and further file corresponds with the number for each retrieval I outlined in the DATA RETRIEVAL PROCESS text document
+DATA RETRIEVED file folder contains the .xls files that I exported once I retrieved the data (each table was exported individually and each 'DR NUM 1' and further file corresponds with the number for each retrieval I outlined in the DATA RETRIEVAL PROCESS text document)
 
 
