@@ -1,0 +1,118 @@
+====================DATA RETRIEVAL======================
+*************Corresponds with excel files***************
+
+#1 To find out how many copies of a specific book are available at each branch: 
+
+SELECT libraryBranches.branchID, libraryBranches.branchName, COUNT(*) as no_of_copies 
+FROM bookCopies 
+JOIN libraryBranches ON bookCopies.branchID = libraryBranches.branchID 
+WHERE bookCopies.bookID = '123' 
+GROUP BY libraryBranches.branchID, libraryBranches.branchName;
+
+--------------------------------
+
+#2 To get a list of all the books in the library:
+
+SELECT * FROM books;
+
+--------------------------------
+
+#3 To get information about a specific borrower (replace first and last anme with anyone in borrowers table):
+
+SELECT * FROM borrowers WHERE firstName = 'Elizabeth' AND lastName = 'Hernandez';
+
+--------------------------------
+
+#4 To find out which books are currently borrowed and when they are due:
+
+SELECT loans.bookID, books.bookTitle, loans.dueDATE 
+FROM loans 
+JOIN books ON loans.bookID = books.bookID 
+WHERE loans.returnDate IS NULL;
+
+--------------------------------
+
+#5 To get information about a specific library branch (replace  South Branch  with any branch name):
+
+SELECT * FROM libraryBranches WHERE branchName = 'South Branch';
+
+--------------------------------
+
+#6 To find out which books are overdue:   **OR THE overdueBooks TABLE CAN ALSO BE USED**
+
+SELECT loans.bookID, books.bookTitle, borrowers.firstName, borrowers.lastName, loans.dueDATE 
+FROM loans 
+JOIN books ON loans.bookID = books.bookID 
+JOIN borrowers ON loans.borrowerID = borrowers.borrowerID 
+WHERE loans.returnDate IS NULL AND loans.dueDATE < CURDATE();
+
+--------------------------------
+
+#7 To find out which books are the most popular (have been borrowed the most): 
+
+SELECT loans.bookID, books.bookTitle, COUNT(*) as borrowedCount 
+FROM loans 
+JOIN books ON loans.bookID = books.bookID 
+GROUP BY loans.bookID 
+ORDER BY borrowedCount DESC LIMIT 10;
+
+--------------------------------
+
+#8 To find out which borrowers are the most active (have borrowed the most books): 
+
+SELECT borrowers.borrowerID, borrowers.firstName, borrowers.lastName, COUNT(*) as borrowCount 
+FROM loans 
+JOIN borrowers ON loans.borrowerID = borrowers.borrowerID 
+GROUP BY borrowers.borrowerID 
+ORDER BY borrowCount DESC LIMIT 10;
+
+--------------------------------
+
+#9 To find out which library branches have the most book loans: 
+
+SELECT loans.branchID, libraryBranches.branchName, COUNT(*) as bookLoans 
+FROM loans 
+JOIN libraryBranches ON loans.branchID = libraryBranches.branchID 
+GROUP BY loans.branchID 
+ORDER BY bookLoans DESC;
+
+--------------------------------
+
+#10 To find out which books have never been borrowed:
+
+SELECT books.bookID, books.bookTitle 
+FROM books 
+LEFT JOIN loans ON books.bookID = loans.bookID 
+WHERE loans.bookID IS NULL;
+
+---------------------------------
+
+#11 To find out which borrowers have not returned their borrowed books yet:
+
+SELECT borrowers.borrowerID, borrowers.firstName , borrowers.lastName
+FROM borrowers 
+JOIN loans ON borrowers.borrowerID = loans.borrowerID 
+WHERE loans.returnDate IS NULL;
+
+----------------------------------
+
+#12 To find out which book is the most borrowed in each library branch: 
+
+SELECT loans.branchID, libraryBranches.branchName, loans.bookID, books.bookTitle, COUNT(*) as count 
+FROM loans 
+JOIN libraryBranches ON loans.branchID = libraryBranches.branchID 
+JOIN books ON loans.bookID = books.bookID 
+GROUP BY loans.branchID, loans.bookID 
+ORDER BY count DESC;
+
+----------------------------------
+
+#13 To find out the number of active loans per library branch: 
+
+SELECT loans.branchID, libraryBranches.branchName, COUNT(*) as activeLoans 
+FROM loans 
+JOIN libraryBranches ON loans.branchID = libraryBranches.branchID 
+WHERE loans.returnDate IS NULL 
+GROUP BY loans.branchID;
+
+----------------------------------

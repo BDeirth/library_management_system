@@ -1,0 +1,86 @@
+-- create the tables
+CREATE TABLE books (
+  bookID        INT        NOT NULL   AUTO_INCREMENT,
+  bookTitle      VARCHAR(255)   NOT NULL,
+  bookAuthor      VARCHAR(255)    NOT NULL,
+  bookPubYear      INT    NOT NULL,
+  bookGenre      VARCHAR(50),
+  bookCopies       INT,
+  PRIMARY KEY (bookID)
+);
+
+CREATE TABLE borrowers (
+  borrowerID        INT(11)        NOT NULL   AUTO_INCREMENT,
+  firstName     VARCHAR(50)        NOT NULL,
+  lastName      VARCHAR(50)        NOT NULL,
+  email			VARCHAR(100),
+  phone			VARCHAR(20),
+  PRIMARY KEY (borrowerID)
+);
+
+CREATE TABLE loans (
+  loanID			INT			NOT NULL 	AUTO_INCREMENT,
+  bookID			INT,
+  borrowerID		INT,
+  loanDate			DATE,
+  dueDATE			DATE,
+  copyID			INT,
+  returnDate		DATE,
+  FOREIGN KEY (bookID) REFERENCES books(bookID),
+  FOREIGN KEY (borrowerID) REFERENCES borrowers(borrowerID),
+  PRIMARY KEY (loanID)
+);
+
+CREATE TABLE bookCopies (
+  copyID			INT			NOT NULL 	AUTO_INCREMENT,
+  bookID			INT,
+  branchID			INT,
+  FOREIGN KEY (bookID) REFERENCES books(bookID),
+  FOREIGN KEY (branchID) REFERENCES libraryBranches(branchID),
+  PRIMARY KEY (copyID)
+);
+
+CREATE TABLE libraryBranches (
+    branchID INT PRIMARY KEY,
+    branchName VARCHAR(255),
+    branchLocation VARCHAR(255)
+);
+
+CREATE TABLE returnedBooks (
+    returnID INT PRIMARY KEY AUTO_INCREMENT,
+    copyID INT,
+    branchID INT,
+    returnDate DATE,
+    FOREIGN KEY (copyID) REFERENCES bookCopies(copyID),
+    FOREIGN KEY (branchID) REFERENCES libraryBranches(branchID)
+);
+
+CREATE TABLE overdueBooks (
+    overdueID INT PRIMARY KEY AUTO_INCREMENT,
+    copyID INT,
+    branchID INT,
+    dueDate DATE,
+    returnDate DATE,
+    FOREIGN KEY (copyID) REFERENCES bookCopies(copyID),
+    FOREIGN KEY (branchID) REFERENCES libraryBranches(branchID)
+);
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+ADDING FOREIGN KEYS
+
+ALTER TABLE loans
+ADD FOREIGN KEY (bookID) REFERENCES books(bookID),
+ADD FOREIGN KEY (borrowerID) REFERENCES borrowers(borrowerID);
+
+ALTER TABLE bookCopies
+ADD FOREIGN KEY (bookID) REFERENCES books(bookID),
+ADD FOREIGN KEY (branchID) REFERENCES libraryBranches(branchID);
+
+ALTER TABLE returnedBooks
+ADD FOREIGN KEY (copyID) REFERENCES bookCopies(copyID),
+ADD FOREIGN KEY (branchID) REFERENCES libraryBranches(branchID);
+
+ALTER TABLE overdueBooks
+ADD FOREIGN KEY (copyID) REFERENCES bookCopies(copyID),
+ADD FOREIGN KEY (branchID) REFERENCES libraryBranches(branchID);
